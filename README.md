@@ -1,4 +1,3 @@
-Your Playlist Downloader
 This project started as a part of my quest to get get a free, open source youtube playlist video downloader, but I guess as much as I kept working on it, I wanted it to be more, a general download manager.
 
 To use it:
