@@ -1,17 +1,16 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("YourPlaylistDownloader")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Your Playlist Downloader")]
+[assembly: AssemblyDescription("It downloads youtube video playlists.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("YourPlaylistDownloader")]
+[assembly: AssemblyCompany("Haron Kipkorir")]
+[assembly: AssemblyProduct("Your Playlist Downloader")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("YPD")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

@@ -27,8 +27,11 @@ namespace YourPlaylistDownloader
 
             DownloadVideo(txtUrl.Text, Convert.ToInt32(cboResolution.Text));
 
-
-            MessageBox.Show("Your download completed successfully." + MessageBoxButtons.OK + MessageBoxIcon.Information);
+            bool isDownloadComplete = progressBar.Value == 100;
+            if (isDownloadComplete)
+            {
+                MessageBox.Show("Your download completed successfully." + MessageBoxButtons.OK + MessageBoxIcon.Information);
+            }
         }
 
 
@@ -36,21 +39,29 @@ namespace YourPlaylistDownloader
 
         private void DownloadVideo(string url, int resolution)
         {
-            IEnumerable<VideoInfo> videos = DownloadUrlResolver.GetDownloadUrls(url);
-            VideoInfo video = videos.First(p => p.VideoType == VideoType.Mp4 && p.Resolution == resolution);
-
-            if (video.RequiresDecryption)
+            try
             {
-                DownloadUrlResolver.DecryptDownloadUrl(video);
+
+                IEnumerable<VideoInfo> videos = DownloadUrlResolver.GetDownloadUrls(url);
+                VideoInfo video = videos.First(p => p.VideoType == VideoType.Mp4 && p.Resolution == resolution);
+
+                if (video.RequiresDecryption)
+                {
+                    DownloadUrlResolver.DecryptDownloadUrl(video);
+                }
+
+                VideoDownloader downloader = new VideoDownloader(video, Path.Combine(Application.StartupPath + "\\", video.Title + video.VideoExtension));
+                downloader.DownloadProgressChanged += Downloader_DownloadProgressChanged;
+
+                // Thread to handle downloading youtube videos
+                // Advantages is that it helps applications use more than one tread during execution that the same time
+                Thread thread = new Thread(() => { downloader.Execute(); }) { IsBackground = true };
+                thread.Start();
             }
-
-            VideoDownloader downloader = new VideoDownloader(video, Path.Combine(Application.StartupPath + "\\", video.Title + video.VideoExtension));
-            downloader.DownloadProgressChanged += Downloader_DownloadProgressChanged;
-
-            // Thread to handle downloading youtube videos
-            // Advantages is that it helps applications use more than one tread during execution that the same time
-            Thread thread = new Thread(() => { downloader.Execute(); }) { IsBackground = true };
-            thread.Start();
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
 
